@@ -1,4 +1,11 @@
-import { View, Text, StyleSheet, TextInput, Pressable } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  Pressable,
+  ActivityIndicator,
+} from 'react-native';
 import { NavigationProp } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../FirebaseConfig';
@@ -99,62 +106,70 @@ const SignUp = ({ navigation }: RouterProps) => {
 
   return (
     <View style={styles.container}>
-      <TextInput
-        value={full_name}
-        style={styles.input}
-        placeholder="Name in full"
-        autoCapitalize="none"
-        onChangeText={(text) => setFullName(text)}
-      ></TextInput>
-      {errFull_name !== '' && (
-        <Text style={styles.validation}>{errFull_name}</Text>
+      {loading ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : (
+        <View>
+          <TextInput
+            value={full_name}
+            style={styles.input}
+            placeholder="Name in full"
+            autoCapitalize="none"
+            onChangeText={(text) => setFullName(text)}
+          ></TextInput>
+          {errFull_name !== '' && (
+            <Text style={styles.validation}>{errFull_name}</Text>
+          )}
+
+          <TextInput
+            value={mobile}
+            style={styles.input}
+            placeholder="Mobile number"
+            autoCapitalize="none"
+            onChangeText={(text) => setMobile(text)}
+          ></TextInput>
+          {errMobile !== '' && (
+            <Text style={styles.validation}>{errMobile}</Text>
+          )}
+
+          <TextInput
+            value={email}
+            style={styles.input}
+            placeholder="Email"
+            autoCapitalize="none"
+            onChangeText={(text) => setEmail(text)}
+          ></TextInput>
+          {errEmail !== '' && <Text style={styles.validation}>{errEmail}</Text>}
+
+          <TextInput
+            value={password}
+            secureTextEntry={true}
+            style={styles.input}
+            placeholder="Password"
+            autoCapitalize="none"
+            onChangeText={(text) => setPassword(text)}
+          ></TextInput>
+          {errPassword !== '' && (
+            <Text style={styles.validation}>{errPassword}</Text>
+          )}
+
+          <TextInput
+            value={con_password}
+            secureTextEntry={true}
+            style={styles.input}
+            placeholder="Password confirmation"
+            autoCapitalize="none"
+            onChangeText={(text) => setConPassword(text)}
+          ></TextInput>
+          {errCon_password !== '' && (
+            <Text style={styles.validation}>{errCon_password}</Text>
+          )}
+
+          <Pressable style={styles.button} onPress={signUp}>
+            <Text style={styles.text}>CREATE ACCOUNT</Text>
+          </Pressable>
+        </View>
       )}
-
-      <TextInput
-        value={mobile}
-        style={styles.input}
-        placeholder="Mobile number"
-        autoCapitalize="none"
-        onChangeText={(text) => setMobile(text)}
-      ></TextInput>
-      {errMobile !== '' && <Text style={styles.validation}>{errMobile}</Text>}
-
-      <TextInput
-        value={email}
-        style={styles.input}
-        placeholder="Email"
-        autoCapitalize="none"
-        onChangeText={(text) => setEmail(text)}
-      ></TextInput>
-      {errEmail !== '' && <Text style={styles.validation}>{errEmail}</Text>}
-
-      <TextInput
-        value={password}
-        secureTextEntry={true}
-        style={styles.input}
-        placeholder="Password"
-        autoCapitalize="none"
-        onChangeText={(text) => setPassword(text)}
-      ></TextInput>
-      {errPassword !== '' && (
-        <Text style={styles.validation}>{errPassword}</Text>
-      )}
-
-      <TextInput
-        value={con_password}
-        secureTextEntry={true}
-        style={styles.input}
-        placeholder="Password confirmation"
-        autoCapitalize="none"
-        onChangeText={(text) => setConPassword(text)}
-      ></TextInput>
-      {errCon_password !== '' && (
-        <Text style={styles.validation}>{errCon_password}</Text>
-      )}
-
-      <Pressable style={styles.button} onPress={signUp}>
-        <Text style={styles.text}>CREATE ACCOUNT</Text>
-      </Pressable>
     </View>
   );
 };
