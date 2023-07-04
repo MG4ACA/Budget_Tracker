@@ -1,12 +1,15 @@
 import { View, TextInput, StyleSheet, ActivityIndicator, KeyboardAvoidingView, Image, Text, Pressable } from 'react-native'
 import React, { useState } from 'react'
 import { FIREBASE_AUTH } from '../../FirebaseConfig'
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
+import { signInWithEmailAndPassword } from 'firebase/auth'
+import { NavigationProp } from '@react-navigation/native'
 import { LinearGradient } from 'expo-linear-gradient';
 
+interface RouterProps {
+    navigation: NavigationProp<any, any>
+}
 
-
-const Login = () => {
+const Login = ({navigation}: RouterProps) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
@@ -25,20 +28,6 @@ const Login = () => {
       setLoading(false)
     }
   }
-
-  const signUp = async () =>{
-    setLoading(true)
-    try {
-      const response = await createUserWithEmailAndPassword(auth, email, password)
-      console.log(response);
-    } catch (error:any) {
-      console.log(error);
-      alert('Sign in failed: '+error.message);
-    }finally{
-      setLoading(false)
-    }
-  }
-
   
   return (
     <View style={styles.container}>
@@ -49,7 +38,7 @@ const Login = () => {
         style={styles.background}
       >
         <View style={styles.border_style}>
-                  <KeyboardAvoidingView behavior='padding' >
+          <KeyboardAvoidingView behavior='padding' >
       
           <View style={styles.logo_view}>
             <Image
@@ -68,7 +57,7 @@ const Login = () => {
             <Pressable style={styles.button} onPress={signIn}>
               <Text style={styles.text}>SIGN IN</Text>
             </Pressable>
-            <Pressable style={styles.button_sign_up} onPress={signUp}>
+            <Pressable style={styles.button_sign_up} onPress={()=> navigation.navigate('sign_up')}>
               <Text style={styles.text}>CREATE ACCOUNT</Text>
             </Pressable>
 
